@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var http = require('http');
 
 var app = express();
 
@@ -22,12 +23,15 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.set('port', 8080);
+
+http.createServer(app).listen(8080,
+  function(){
+    console.log("Express server listening on port " + 8080);
+});
+
 app.use('/', index);
 app.use('/users', users);
-
-app.listen(8080,function(){
-    console.log("8080 listen");
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
